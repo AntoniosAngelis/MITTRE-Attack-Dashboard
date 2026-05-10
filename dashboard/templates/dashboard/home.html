@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MITRE ATT&CK Dashboard</title>
+
+    <style>
+        body{
+            background:#0b1220;
+            color:white;
+            font-family:Arial;
+            padding:40px;
+        }
+
+        h1{
+            color:#4db8ff;
+            font-size:50px;
+        }
+
+        .card{
+            background:#18243d;
+            padding:20px;
+            border-radius:12px;
+            margin-bottom:20px;
+        }
+
+        .stats-container{
+            display:flex;
+            gap:20px;
+            margin-top:20px;
+            margin-bottom:30px;
+        }
+
+        .high{
+            background:#ff4d4d;
+            flex:1;
+        }
+
+        .medium{
+            background:#ffb84d;
+            flex:1;
+        }
+
+        .low{
+            background:#33cc99;
+            flex:1;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            background:#18243d;
+            border-radius:12px;
+            overflow:hidden;
+        }
+
+        th{
+            background:#243454;
+            color:#4db8ff;
+            padding:15px;
+            text-align:left;
+        }
+
+        td{
+            padding:15px;
+            border-bottom:1px solid #2d3e63;
+        }
+
+        tr:hover{
+            background:#223252;
+        }
+
+        .severity-high{
+            background:#ff4d4d;
+            padding:6px 12px;
+            border-radius:8px;
+            font-weight:bold;
+        }
+
+        .severity-medium{
+            background:#ffb84d;
+            color:black;
+            padding:6px 12px;
+            border-radius:8px;
+            font-weight:bold;
+        }
+
+        .severity-low{
+            background:#33cc99;
+            padding:6px 12px;
+            border-radius:8px;
+            font-weight:bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>MITRE ATT&CK Dashboard</h1>
+
+<div class="card">
+    <h2>Security Event Overview</h2>
+    <p>Total Events Detected: <strong>{{ events|length }}</strong></p>
+</div>
+
+<div class="stats-container">
+    <div class="card high">
+        <h2>High</h2>
+        <p>{{ high_count }} Threats</p>
+    </div>
+
+    <div class="card medium">
+        <h2>Medium</h2>
+        <p>{{ medium_count }} Threats</p>
+    </div>
+
+    <div class="card low">
+        <h2>Low</h2>
+        <p>{{ low_count }} Threats</p>
+    </div>
+</div>
+
+<table>
+    <tr>
+        <th>Event</th>
+        <th>Technique ID</th>
+        <th>MITRE Technique</th>
+        <th>Severity</th>
+    </tr>
+
+    {% for event in events %}
+    <tr>
+        <td>{{ event.event }}</td>
+        <td>{{ event.technique }}</td>
+        <td>{{ event.name }}</td>
+        <td>
+            {% if event.severity == "High" %}
+            <span class="severity-high">HIGH</span>
+            {% elif event.severity == "Medium" %}
+            <span class="severity-medium">MEDIUM</span>
+            {% else %}
+            <span class="severity-low">LOW</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>
